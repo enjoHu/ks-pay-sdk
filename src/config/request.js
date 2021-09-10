@@ -2,10 +2,8 @@ class Request {
     constructor (host) {
       this.host = host
     }
-    fetch (requestURL, data, method, resolve, reject) {
+    fetch (requestURL, ks, data, method, resolve, reject) {
         const url = this.host + requestURL
-        const ks = data.ks
-        delete data.ks
         ks.request({
             url,
             data,
@@ -19,14 +17,14 @@ class Request {
             }
         })
     }
-    get (url, data) {
+    get (url, ks, data) {
         return new Promise((resolve, reject) => {
-            this.fetch(url, data, 'GET', resolve, reject)
+            this.fetch(url, ks, data, 'GET', resolve, reject)
         })
     }
-    post (url, data) {
+    post (url, ks, data) {
         return new Promise((resolve, reject) => {
-            this.fetch(url, data, 'POST', resolve, reject)
+            this.fetch(url, ks, data, 'POST', resolve, reject)
         })
     }
 }

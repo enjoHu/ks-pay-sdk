@@ -6,16 +6,15 @@ class KsPaySDK {
         this.config = config
     }
     toPay (config) {
-        const { ks, requestSn, open_id } = config
+        const { env, ks, requestSn, open_id } = config
         const params = {
-            ks,
             paymentType: '223',
             requestSn,
             openId: open_id
         }
         ks.showLoading({ title: '加载中' })
         return new Promise((resolve, reject) => {
-            API.createChannelOrder(params).then(res => {
+            API.createChannelOrder({ env, ks, params }).then(res => {
                 ks.hideLoading()
                 const { code, data, message } = res.data.data
                 console.log('res.data.data', res.data.data)
@@ -50,15 +49,14 @@ class KsPaySDK {
     }
 
     getPayResult (config) {
-        const { ks, requestSn } = config
+        const { env, ks, requestSn } = config
         const params = {
-            ks,
             requestSn,
             productType: 'F2F_PAY'
         }
         ks.showLoading({ title: '加载中' })
         return new Promise((resolve, reject) => {
-            API.getPayResult(params).then(res => {
+            API.getPayResult({ env, ks, params }).then(res => {
                 ks.hideLoading()
                 const { code, data, message } = res.data.data
                 if (code === SUCCESS_CODE) {

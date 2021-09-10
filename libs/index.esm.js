@@ -29,10 +29,8 @@ var Request = /*#__PURE__*/function () {
 
   _createClass(Request, [{
     key: "fetch",
-    value: function fetch(requestURL, data, method, resolve, reject) {
+    value: function fetch(requestURL, ks, data, method, resolve, reject) {
       var url = this.host + requestURL;
-      var ks = data.ks;
-      delete data.ks;
       ks.request({
         url: url,
         data: data,
@@ -50,20 +48,20 @@ var Request = /*#__PURE__*/function () {
     }
   }, {
     key: "get",
-    value: function get(url, data) {
+    value: function get(url, ks, data) {
       var _this = this;
 
       return new Promise(function (resolve, reject) {
-        _this.fetch(url, data, 'GET', resolve, reject);
+        _this.fetch(url, ks, data, 'GET', resolve, reject);
       });
     }
   }, {
     key: "post",
-    value: function post(url, data) {
+    value: function post(url, ks, data) {
       var _this2 = this;
 
       return new Promise(function (resolve, reject) {
-        _this2.fetch(url, data, 'POST', resolve, reject);
+        _this2.fetch(url, ks, data, 'POST', resolve, reject);
       });
     }
   }]);
@@ -71,29 +69,26 @@ var Request = /*#__PURE__*/function () {
   return Request;
 }();
 
-function getCurrentEnvUrl(urlMap) {
-  return urlMap['dev'];
-}
-/**
-  * 这里使用了两种环境配置，dev和pro环境
-  * 开发和测试，我们使用dev中的url
-  * 正式环境我们将使用pro中的url
-  */
-
-
-var payURL = getCurrentEnvUrl({
-  dev: 'https://paym-cashier.guazi-cloud.com',
-  pro: 'https://pay.guazi.com'
-});
 var CHANNEL_ORDER = '/paym-cashier/client/create/channelOrder';
 var PAY_RESULT = '/paym-cashier/client/search/payResult';
-var payRequest = new Request(payURL);
+var payURL = {
+  dev: 'https://paym-cashier.guazi-cloud.com',
+  pro: 'https://pay.guazi.com'
+};
 var API = {
-  createChannelOrder: function createChannelOrder(data) {
-    return payRequest.post(CHANNEL_ORDER, data);
+  createChannelOrder: function createChannelOrder(_ref) {
+    var env = _ref.env,
+        ks = _ref.ks,
+        params = _ref.params;
+    var payRequest = new Request(payURL[env]);
+    return payRequest.post(CHANNEL_ORDER, ks, params);
   },
-  getPayResult: function getPayResult(data) {
-    return payRequest.get(PAY_RESULT, data);
+  getPayResult: function getPayResult(_ref2) {
+    var env = _ref2.env,
+        ks = _ref2.ks,
+        params = _ref2.params;
+    var payRequest = new Request(payURL[env]);
+    return payRequest.get(PAY_RESULT, ks, params);
   }
 };
 var SUCCESS_CODE = '0';
@@ -108,11 +103,11 @@ var KsPaySDK = /*#__PURE__*/function () {
   _createClass(KsPaySDK, [{
     key: "toPay",
     value: function toPay(config) {
-      var ks = config.ks,
+      var env = config.env,
+          ks = config.ks,
           requestSn = config.requestSn,
           open_id = config.open_id;
       var params = {
-        ks: ks,
         paymentType: '223',
         requestSn: requestSn,
         openId: open_id
@@ -121,7 +116,11 @@ var KsPaySDK = /*#__PURE__*/function () {
         title: '加载中'
       });
       return new Promise(function (resolve, reject) {
-        API.createChannelOrder(params).then(function (res) {
+        API.createChannelOrder({
+          env: env,
+          ks: ks,
+          params: params
+        }).then(function (res) {
           ks.hideLoading();
           var _res$data$data = res.data.data,
               code = _res$data$data.code,
@@ -164,10 +163,10 @@ var KsPaySDK = /*#__PURE__*/function () {
   }, {
     key: "getPayResult",
     value: function getPayResult(config) {
-      var ks = config.ks,
+      var env = config.env,
+          ks = config.ks,
           requestSn = config.requestSn;
       var params = {
-        ks: ks,
         requestSn: requestSn,
         productType: 'F2F_PAY'
       };
@@ -175,7 +174,11 @@ var KsPaySDK = /*#__PURE__*/function () {
         title: '加载中'
       });
       return new Promise(function (resolve, reject) {
-        API.getPayResult(params).then(function (res) {
+        API.getPayResult({
+          env: env,
+          ks: ks,
+          params: params
+        }).then(function (res) {
           ks.hideLoading();
           var _res$data$data2 = res.data.data,
               code = _res$data$data2.code,

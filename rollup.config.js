@@ -14,8 +14,7 @@ export default {
         ]
     }, {
         file: 'libs/index.js',
-        format: 'cjs',
-        sourcemap: true
+        format: 'cjs'
     }],
     plugins: [
         commonjs(),
