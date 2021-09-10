@@ -13,9 +13,9 @@ export default {
             })
         ]
     }, {
-        file: 'libs/index.umd.js',
-        format: 'umd',
-        name: 'KsPaySDK'
+        file: 'libs/index.js',
+        format: 'cjs',
+        sourcemap: true
     }],
     plugins: [
         commonjs(),
