@@ -199,7 +199,4 @@ var KsPaySDK = /*#__PURE__*/function () {
 }();
 
 var ksPaySdk = new KsPaySDK();
-var toPay = ksPaySdk.toPay;
-var getPayResult = ksPaySdk.getPayResult; // module.exports = ksPaySdk
-
-export { getPayResult, toPay };
+export { ksPaySdk as default };

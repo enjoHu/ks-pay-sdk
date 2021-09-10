@@ -70,7 +70,4 @@ class KsPaySDK {
 }
 
 const ksPaySdk = new KsPaySDK()
-
-export const toPay = ksPaySdk.toPay
-export const getPayResult = ksPaySdk.getPayResult
-// module.exports = ksPaySdk
+export default ksPaySdk

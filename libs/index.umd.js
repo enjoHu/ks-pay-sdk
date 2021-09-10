@@ -205,7 +205,8 @@
     return KsPaySDK;
   }();
 
-  var ksPaySdk = new KsPaySDK();
+  var ksPaySdk = new KsPaySDK(); // const toPay = ksPaySdk.toPay
+   // module.exports = ksPaySdk
 
   return ksPaySdk;
 

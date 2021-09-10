@@ -14,7 +14,8 @@ export default {
         ]
     }, {
         file: 'libs/index.js',
-        format: 'cjs'
+        format: 'umd',
+        name: 'ks-pay-sdk'
     }],
     plugins: [
         commonjs(),
