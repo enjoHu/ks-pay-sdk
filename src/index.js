@@ -58,8 +58,8 @@ class KsPaySDK {
         return new Promise((resolve, reject) => {
             API.getPayResult({ env, ks, params }).then(res => {
                 ks.hideLoading()
-                const { code, data, message } = res.data.data
-                if (code === SUCCESS_CODE) {
+                const { code, data, message, type } = res.data.data
+                if (code === SUCCESS_CODE && (type === 'S' || type === 'P')) {
                     return resolve(data)
                 } else {
                     return reject(message)
