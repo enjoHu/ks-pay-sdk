@@ -60,6 +60,7 @@ class KsPaySDK {
                 ks.hideLoading()
                 const { code, data, message, type } = res.data.data
                 if (code === SUCCESS_CODE && (type === 'S' || type === 'P')) {
+                    data.type = type
                     return resolve(data)
                 } else {
                     return reject(message)
