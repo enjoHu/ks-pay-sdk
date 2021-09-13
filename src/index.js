@@ -59,7 +59,7 @@ class KsPaySDK {
             API.getPayResult({ env, ks, params }).then(res => {
                 ks.hideLoading()
                 const { code, data, message, type } = res.data.data
-                if (code === SUCCESS_CODE && (type === 'S' || type === 'P')) {
+                if (code === SUCCESS_CODE && (type === 'S' || type === 'P'  || type === 'E')) {
                     data.type = type
                     return resolve(data)
                 } else {
