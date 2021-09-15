@@ -190,10 +190,14 @@
             var _res$data$data2 = res.data.data,
                 code = _res$data$data2.code,
                 data = _res$data$data2.data,
-                message = _res$data$data2.message;
+                message = _res$data$data2.message,
+                type = _res$data$data2.type;
 
-            if (code === SUCCESS_CODE) {
-              return resolve(data);
+            if (code === SUCCESS_CODE && (type === 'S' || type === 'P' || type === 'E')) {
+              var resolveData = Object.assign({}, data, {
+                type: type
+              });
+              return resolve(resolveData);
             } else {
               return reject(message);
             }
