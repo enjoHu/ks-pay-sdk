@@ -42,7 +42,7 @@ class KsPaySDK {
                         showCancel: false,
                         content: message
                     })
-                    return reject(message)
+                    // return reject(message)
                 }
             })
         })
